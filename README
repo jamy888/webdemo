@@ -1,0 +1,8 @@
+此为数据库创建脚本
+CREATE TABLE user (
+    id int not null auto_increment,
+    loginName varchar(32) not null,
+    password varchar(32) not null,
+    name varchar(32) not null,
+    primary key (id)
+);
