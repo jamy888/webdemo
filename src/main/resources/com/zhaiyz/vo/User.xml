@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.zhaiyz.vo.user">
+	<typeAlias alias="User" type="com.zhaiyz.vo.User" />
+	
+	<insert id="insert" parameterClass="User">
+		INSERT INTO user
+		<dynamic  prepend="(" close=")">
+		 	 <isNotNull property="loginName" prepend=",">loginName</isNotNull>
+		 	 <isNotNull property="password" prepend=",">password</isNotNull>
+		 	 <isNotNull property="name" prepend=",">name</isNotNull>
+		</dynamic>
+		<dynamic prepend="VALUES(" close=")">
+		 	 <isNotNull property="loginName" prepend=",">#loginName#</isNotNull>
+		 	 <isNotNull property="password" prepend=",">#password#</isNotNull>
+		 	 <isNotNull property="name" prepend=",">#name#</isNotNull>
+		</dynamic>
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS id
+		</selectKey>
+	</insert>
+	
+	<select id="select" parameterClass="User"  resultClass="User">
+		SELECT * FROM user
+		<dynamic prepend="WHERE">
+			<isGreaterThan prepend="AND" property="id" compareValue="0">
+				id = #id#
+			</isGreaterThan>
+			<isNotNull prepend="AND" property="loginName">
+				loginName = #loginName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				password = #password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="name">
+				name = #name#
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap>	
